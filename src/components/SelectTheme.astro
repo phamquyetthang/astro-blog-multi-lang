@@ -4,11 +4,24 @@ import IconPalette from '~/icons/palette.svg'
 import IconCircleX from '~/icons/circle-x.svg'
 import siteConfig from '~/site.config'
 
+const themeIcon = {
+  'catppuccin-latte': '☀️',
+  'catppuccin-mocha': '🌙',
+  dracula: '🌙',
+  'github-dark': '🌙',
+  'github-light': '☀️',
+  'material-theme-darker': '🌙',
+  'material-theme-lighter': '☀️',
+}
 function kebabToTitleCase(str: string): string {
-  return str
-    .split('-') // Split the string into words
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
-    .join(' ') // Join the words with a space
+  return (
+    str
+      .split('-') // Split the string into words
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+      .join(' ') +
+    ' ' +
+    themeIcon[str as keyof typeof themeIcon]
+  ) // Join the words with a space
 }
 ---
 

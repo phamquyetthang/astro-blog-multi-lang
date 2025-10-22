@@ -7,6 +7,7 @@ import PostInfo from '~/components/PostInfo.astro'
 import type { Collation } from '~/types'
 import { TagsGroup, getPostAnchorId, getPostSlug } from '~/utils'
 import { localizePath, useTranslations, type Lang } from '~/i18n/config'
+import { Image } from 'astro:assets'
 
 interface Props {
   post: CollectionEntry<'posts'>
@@ -35,14 +36,34 @@ const articleLink = samePage ? `#${anchorId}` : postHref
     <a href={articleLink}># {post.data.title}</a>
   </h1>
   <PostInfo post={post} lang={lang} class="mb-3 mt-4" />
-  {description && <p class="pl-0.5 my-4 text-base/7 text-foreground">{description}</p>}
-  {
-    tags && (
-      <div class="mb-6">
-        <Tags tags={tags} />
-      </div>
-    )
-  }
+  <div class="flex gap-4 mb-4 items-start">
+    {
+      post.data.coverImage && (
+        <Image
+          priority
+          layout="constrained"
+          src={post.data.coverImage.src}
+          alt={post.data.coverImage.alt}
+          class="w-48 rounded-xl"
+        />
+      )
+    }
+    <div>
+      {
+        description && (
+          <p class="pl-0.5 mb-4 text-base/7 text-foreground">{description}</p>
+        )
+      }
+      {
+        tags && (
+          <div>
+            <Tags tags={tags} />
+          </div>
+        )
+      }
+    </div>
+  </div>
+
   <div>
     <a class="button flex items-center !pl-3.5" href={articleLink}>
       {samePage ? t('posts.continue') : t('posts.read')}
