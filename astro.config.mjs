@@ -73,7 +73,7 @@ export default defineConfig({
   integrations: [
     sitemap(),
     expressiveCode({
-      themes: siteConfig.themes.include,
+      themes: ['andromeeda'],
       useDarkModeMediaQuery: false,
       defaultProps: {
         showLineNumbers: false,

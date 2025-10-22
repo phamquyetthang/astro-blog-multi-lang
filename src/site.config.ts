@@ -2,7 +2,7 @@ import type { SiteConfig } from '~/types'
 
 const config: SiteConfig = {
   // Absolute URL to the root of your published site, used for generating links and sitemaps.
-  site: 'https://Codeduthu.stelclementine.com',
+  site: 'https://codeduthu.stelclementine.com',
   // The name of your site, used in the title and for SEO.
   title: 'Codeduthu',
   // The description of your site, used for SEO and RSS feed.
@@ -16,9 +16,8 @@ const config: SiteConfig = {
   // Needs to be a square JPEG file due to limitations of the social card generator.
   // Try https://squoosh.app/ to easily convert images to JPEG.
   socialCardAvatarImage: './src/content/avatar.jpg',
-  // Font imported from @fontsource or elsewhere, used for the entire site.
-  // To change this see src/styles/global.css and import a different font.
-  font: 'JetBrains Mono Variable',
+  // Font imported from Google Fonts or elsewhere, used site-wide.
+  font: 'Lexend Deca',
   // For pagination, the number of posts to display per page.
   // The homepage will display half this number in the "Latest Posts" section.
   pageSize: 6,
