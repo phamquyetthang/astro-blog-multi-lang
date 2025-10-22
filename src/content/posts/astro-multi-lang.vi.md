@@ -1,6 +1,6 @@
 ---
 title: 'Xây dựng blog đa ngôn ngữ với Astro'
-slug: 'astro-multi-lang'
+canonicalSlug: 'astro-multi-lang'
 published: 2025-02-10
 draft: false
 description: 'Ví dụ cụ thể giúp bạn triển khai bài viết song ngữ với cùng một slug.'

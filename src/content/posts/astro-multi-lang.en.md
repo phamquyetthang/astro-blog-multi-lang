@@ -1,6 +1,6 @@
 ---
 title: 'Building a Multilingual Astro Blog'
-slug: 'astro-multi-lang'
+canonicalSlug: 'astro-multi-lang'
 published: 2025-02-10
 draft: false
 description: 'Concrete example showing how to publish translated posts that share the same slug.'

@@ -18,7 +18,7 @@ import { slug } from 'github-slugger'
 import { defaultLang, localizePath, type Lang } from '~/i18n/config'
 
 export function getPostSlug(post: CollectionEntry<'posts'>): string {
-  return post.data.slug ?? post.slug ?? post.id
+  return post.data.canonicalSlug ?? post.slug ?? post.id
 }
 
 export function getPostAnchorId(post: CollectionEntry<'posts'>): string {

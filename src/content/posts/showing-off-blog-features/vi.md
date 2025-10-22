@@ -5,7 +5,7 @@ draft: false
 tags: ['astro', 'demo', 'markdown']
 toc: true
 lang: vi
-slug: 'showing-off'
+canonicalSlug: 'showing-off'
 coverImage:
   src: './cover.jpg'
   alt: 'A person with short, thick hair and prescription glasses sits at an organized workstation, using a magnification app to navigate a webpage. Their posture is proper and relaxed. On the desk: a computer, a mouse, a large desk lamp and a small notebook.'
@@ -126,17 +126,17 @@ testing123
 
 ```md title="Custom character chat" wrap
 :::duck
-**Did you know?** You can easily create custom character chats for your blog with MultiTerm!
+**Did you know?** You can easily create custom character chats for your blog with Codeduthu!
 :::
 ```
 
 :::duck
-**Did you know?** You can easily create custom character chats for your blog with MultiTerm!
+**Did you know?** You can easily create custom character chats for your blog with Codeduthu!
 :::
 
 ### Adding Your Own
 
-To add your own character, first add an image file to the top-level `/public` directory in your cloned MultiTerm repo. Astro cannot automatically optimize image assets from markdown plugins, so make sure to compress the image to a web-friendly size (<100kb).
+To add your own character, first add an image file to the top-level `/public` directory in your cloned Codeduthu repo. Astro cannot automatically optimize image assets from markdown plugins, so make sure to compress the image to a web-friendly size (<100kb).
 
 I recommend Google's free [Squoosh](https://squoosh.app) web app for creating super small webp files. The characters here have been resized to 300 pixels wide and exported to webp with 75% quality using Squoosh.
 

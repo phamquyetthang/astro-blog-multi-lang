@@ -5,14 +5,14 @@
 - **Multiple Theme Mode**: Choose three (or all 59!) Shiki themes and allow your reader to choose their favorite from a dialog menu opened from a button in the header. Every element seamlessly changes color interactively using the magic of CSS variables.
 - **GitHub Comment Section**: Allow readers to respond, discuss, and react with a comment section powered by GitHub and [Giscus](https://giscus.app). Painstakingly themed to match your site perfectly.
 - **GitHub Activity Widget**: Optionally include a statically generated GitHub activity calendar on the homepage that (of course) matches the active color scheme perfectly.
-- **Markdown Extensions**: Admonitions, auto-generated TOC that sticks to the side on large screens, emoji shortcodes, KaTeX math, MDX, and reading time estimates. See the example site's [Showing Off Blog Features](https://multiterm.stelclementine.com/posts/showing-off-blog-features) post.
+- **Markdown Extensions**: Admonitions, auto-generated TOC that sticks to the side on large screens, emoji shortcodes, KaTeX math, MDX, and reading time estimates. See the example site's [Showing Off Blog Features](https://Codeduthu.stelclementine.com/posts/showing-off-blog-features) post.
 - **RSS Feed and Sitemap**: Built-in support for RSS feeds and sitemap with no extra configuration.
 - **Social Links**: Easily include links to common developer platforms including GitHub, Mastodon, Twitter, LinkedIn and E-mail.
 - **Responsive Design**: Optimized for all devices from desktops to mobile phones. Built with [Tailwind v4](https://tailwindcss.com/).
 - **SEO Optimized**: Boost your site's visibility with built-in SEO best practices and automatically generated social card images for every page via [Satori](https://github.com/vercel/satori).
 - **Customizable Build**: Powered by [Astro](https://astro.build/), render as a static site (the default) or generate content dynamically.
 
-Check out the example site [PageSpeed scores](https://pagespeed.web.dev/analysis/https-multiterm-stelclementine-com/qhnp521yci?form_factor=mobile) and [OpenGraph analysis](https://www.opengraph.xyz/url/https%3A%2F%2Fmultiterm.stelclementine.com)
+Check out the example site [PageSpeed scores](https://pagespeed.web.dev/analysis/https-Codeduthu-stelclementine-com/qhnp521yci?form_factor=mobile) and [OpenGraph analysis](https://www.opengraph.xyz/url/https%3A%2F%2FCodeduthu.stelclementine.com)
 
 ## 🚀 Getting Started
 
@@ -42,7 +42,7 @@ yarn build && yarn preview
 
 ## 🛠️ Configuration
 
-Simple configuration is a core feature of MultiTerm. All configuration is done from a single file: `src/site.config.ts`. This is where you can tailor your website to match your vision.
+Simple configuration is a core feature of Codeduthu. All configuration is done from a single file: `src/site.config.ts`. This is where you can tailor your website to match your vision.
 
 Please take a look at `src/site.config.ts` for more information about the configuration options.
 

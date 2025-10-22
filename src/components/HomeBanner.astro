@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets'
-import GitHubActivityCalendar from '~/components/GitHubActivityCalendar.astro'
 import type { FrontmatterImage } from '~/types'
 
 interface Props {
@@ -33,5 +32,4 @@ const { avatarImage, githubCalendar } = Astro.props
       </div>
     </div>
   </div>
-  {githubCalendar && <GitHubActivityCalendar username={githubCalendar} />}
 </div>
