@@ -45,7 +45,7 @@ const config: SiteConfig = {
     },
     {
       name: 'GitHub',
-      url: 'https://github.com/stelcodes/multiterm-astro',
+      url: 'https://github.com/phamquyetthang/astro-blog-multi-lang',
       external: true,
       i18nKey: 'nav.github',
     },
@@ -155,12 +155,12 @@ const config: SiteConfig = {
   },
   // Social links to display in the footer.
   socialLinks: {
-    github: 'https://github.com/stelcodes/multiterm-astro',
-    mastodon: 'https://github.com/stelcodes/multiterm-astro',
-    email: 'https://github.com/stelcodes/multiterm-astro',
-    linkedin: 'https://github.com/stelcodes/multiterm-astro',
-    bluesky: 'https://github.com/stelcodes/multiterm-astro',
-    twitter: 'https://github.com/stelcodes/multiterm-astro',
+    github: 'https://github.com/phamquyetthang/astro-blog-multi-lang',
+    mastodon: 'https://github.com/phamquyetthang/astro-blog-multi-lang',
+    email: 'https://github.com/phamquyetthang/astro-blog-multi-lang',
+    linkedin: 'https://github.com/phamquyetthang/astro-blog-multi-lang',
+    bluesky: 'https://github.com/phamquyetthang/astro-blog-multi-lang',
+    twitter: 'https://github.com/phamquyetthang/astro-blog-multi-lang',
     rss: true, // Set to true to include an RSS feed link in the footer
   },
   // Configuration for Giscus comments.
@@ -170,7 +170,7 @@ const config: SiteConfig = {
   // IMPORTANT: Update giscus.json in the root of the project with your own website URL
   // If you don't want to use Giscus, set this to undefined.
   giscus: {
-    repo: 'stelcodes/multiterm-astro',
+    repo: 'phamquyetthang/astro-blog-multi-lang',
     repoId: 'R_kgDOPNnBig',
     category: 'Giscus',
     categoryId: 'DIC_kwDOPNnBis4CteOc',
