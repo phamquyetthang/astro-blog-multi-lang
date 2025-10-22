@@ -4,6 +4,8 @@ published: 2025-07-20
 draft: false
 tags: ['astro', 'demo', 'markdown']
 toc: true
+lang: en
+slug: 'showing-off'
 coverImage:
   src: './cover.jpg'
   alt: 'A person with short, thick hair and prescription glasses sits at an organized workstation, using a magnification app to navigate a webpage. Their posture is proper and relaxed. On the desk: a computer, a mouse, a large desk lamp and a small notebook.'

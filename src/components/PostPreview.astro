@@ -5,7 +5,7 @@ import { render } from 'astro:content'
 import Tags from '~/components/Tags.astro'
 import PostInfo from '~/components/PostInfo.astro'
 import type { Collation } from '~/types'
-import { TagsGroup } from '~/utils'
+import { TagsGroup, getPostAnchorId, getPostSlug } from '~/utils'
 import { localizePath, useTranslations, type Lang } from '~/i18n/config'
 
 interface Props {
@@ -23,9 +23,11 @@ if (post.data.tags && post.data.tags.length > 0) {
   const tagsGroup = await TagsGroup.build(undefined, lang)
   tags = tagsGroup.matchMany(post.data.tags)
 }
-const postHref = localizePath(`/posts/${post.id}`, lang)
+const slug = getPostSlug(post)
+const anchorId = getPostAnchorId(post)
+const postHref = localizePath(`/posts/${slug}`, lang)
 const samePage = Astro.url.pathname === postHref
-const articleLink = samePage ? `#${post.id}` : postHref
+const articleLink = samePage ? `#${anchorId}` : postHref
 ---
 
 <article class="w-full py-5 my-1 md:my-4 border-accent/10">

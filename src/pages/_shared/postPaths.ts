@@ -1,4 +1,4 @@
-import { getPostSequenceContext, getSortedPosts } from '~/utils'
+import { getPostSequenceContext, getPostSlug, getSortedPosts } from '~/utils'
 import type { Lang } from '~/i18n/config'
 
 export async function getPostStaticPaths(lang: Lang) {
@@ -6,7 +6,7 @@ export async function getPostStaticPaths(lang: Lang) {
   return posts.map((post) => {
     const { prev, next } = getPostSequenceContext(post, posts)
     return {
-      params: { slug: post.id },
+      params: { slug: getPostSlug(post) },
       props: {
         post,
         prev,

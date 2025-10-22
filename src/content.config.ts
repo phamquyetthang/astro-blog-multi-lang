@@ -9,6 +9,7 @@ const postsCollection = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
+      slug: z.string().optional(),
       published: z.coerce.date(),
       // updated: z.coerce.date().optional(),
       draft: z.boolean().optional().default(false),

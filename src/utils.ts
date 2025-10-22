@@ -17,6 +17,14 @@ import Color from 'color'
 import { slug } from 'github-slugger'
 import { defaultLang, localizePath, type Lang } from '~/i18n/config'
 
+export function getPostSlug(post: CollectionEntry<'posts'>): string {
+  return post.data.slug ?? post.slug ?? post.id
+}
+
+export function getPostAnchorId(post: CollectionEntry<'posts'>): string {
+  return getPostSlug(post).replace(/\//g, '-')
+}
+
 export function dateString(date: Date) {
   return date.toISOString().split('T')[0]
 }

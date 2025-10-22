@@ -1,6 +1,13 @@
 ---
 import Layout from '~/layouts/Layout.astro'
-import { SeriesGroup, TagsGroup, getSortedPosts, getPostSequenceContext } from '~/utils'
+import {
+  SeriesGroup,
+  TagsGroup,
+  getSortedPosts,
+  getPostSequenceContext,
+  getPostAnchorId,
+  getPostSlug,
+} from '~/utils'
 import PostPreview from '~/components/PostPreview.astro'
 import DividerText from '~/components/DividerText.astro'
 import { getCollection, render, type CollectionEntry } from 'astro:content'
@@ -27,6 +34,7 @@ const { post, prev, next, lang = defaultLang } = Astro.props as Props
 const t = useTranslations(lang)
 const postData = post.data
 const { headings, Content: PostContent } = await render(post)
+const postAnchorId = getPostAnchorId(post)
 const addendum = await getCollection('addendum')
 let AddendumContent
 let addendumAvatarImage
@@ -81,7 +89,7 @@ if (postData.tags && postData.tags.length > 0) {
       )
     }
     <div class="md:mx-2">
-      <h1 id={post.id} class="mb-4 text-[1.75rem] text-heading1 font-semibold">
+      <h1 id={postAnchorId} class="mb-4 text-[1.75rem] text-heading1 font-semibold">
         # {postData.title}
       </h1>
       <div class="my-2 border-l-2 border-accent/80 pl-4 py-2">
@@ -105,7 +113,7 @@ if (postData.tags && postData.tags.length > 0) {
   {
     nextPostInSeries && (
       <a
-        href={localizePath(`/posts/${nextPostInSeries.id}`, lang)}
+        href={localizePath(`/posts/${getPostSlug(nextPostInSeries)}`, lang)}
         class="button justify-center -mt-8 mb-8 !whitespace-normal text-center flex gap-2 sm:gap-3 items-center"
       >
         <span>{t('posts.nextInSeries')}: {nextPostInSeries.data.title}</span>

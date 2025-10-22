@@ -1,7 +1,7 @@
 import rss from '@astrojs/rss'
 import siteConfig from '~/site.config'
 import type { AstroGlobal } from 'astro'
-import { getSortedPosts } from '~/utils'
+import { getPostSlug, getSortedPosts } from '~/utils'
 import sanitizeHtml from 'sanitize-html'
 import MarkdownIt from 'markdown-it'
 const parser = new MarkdownIt()
@@ -25,7 +25,7 @@ export async function GET(_context: AstroGlobal) {
       pubDate: post.data.published,
       description: post.data.description,
       author: post.data.author || siteConfig.author,
-      link: `/posts/${post.id}`,
+      link: `/posts/${getPostSlug(post)}`,
       content: sanitizeHtml(parser.render(post.body || ''), {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
       }),
