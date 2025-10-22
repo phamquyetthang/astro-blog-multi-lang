@@ -1,0 +1,38 @@
+---
+import type { GetStaticPaths } from 'astro'
+import Layout from '~/layouts/Layout.astro'
+import { SeriesGroup } from '~/utils'
+import PageHeader from '~/components/PageHeader.astro'
+import PostPreview from '~/components/PostPreview.astro'
+import { getLangFromAstro, supportedLangs, translate } from '~/i18n/config'
+import type { CollectionEntry } from 'astro:content'
+
+export const getStaticPaths = (async () => {
+  const paths: Array<{
+    params: { lang: string; slug: string }
+    props: { posts: CollectionEntry<'posts'>[]; seriesTitle: string; lang: string }
+  }> = []
+  for (const lang of supportedLangs) {
+    const seriesGroup = await SeriesGroup.build(lang)
+    seriesGroup.collations.forEach((series) => {
+      paths.push({
+        params: { slug: series.titleSlug, lang },
+        props: { posts: series.entries, seriesTitle: series.title, lang },
+      })
+    })
+  }
+  return paths
+}) satisfies GetStaticPaths
+
+const { posts, seriesTitle, lang: langProp } = Astro.props
+const lang = langProp ?? getLangFromAstro(Astro)
+const titlePieces = ['series', seriesTitle]
+const description = translate(lang, 'seriesPage.description', { series: seriesTitle })
+---
+
+<Layout lang={lang} title={`${translate(lang, 'breadcrumbs.series')}: ${seriesTitle}`} description={description}>
+  <div class="mt-2 sm:mt-0">
+    <PageHeader titlePieces={titlePieces} lang={lang} />
+    {posts.map((post) => <PostPreview post={post} lang={lang} />)}
+  </div>
+</Layout>

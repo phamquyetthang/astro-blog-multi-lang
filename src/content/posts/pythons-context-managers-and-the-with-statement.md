@@ -1,4 +1,5 @@
 ---
+lang: en
 title: "Python's Context Managers and the with Statement"
 published: 2025-07-15
 draft: false

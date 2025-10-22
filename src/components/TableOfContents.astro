@@ -1,14 +1,17 @@
 ---
 import type { MarkdownHeading } from 'astro'
 import TOCHeading from '~/components/TableOfContentsHeading.astro'
+import { translate, type Lang } from '~/i18n/config'
 
 interface Props {
   headings: MarkdownHeading[]
+  lang: Lang
 }
 
-const { headings } = Astro.props
+const { headings, lang } = Astro.props
 
 const filteredHeadings = headings.filter(({ depth }) => depth >= 2 && depth <= 3)
+const title = translate(lang, 'toc.title')
 ---
 
 <details
@@ -17,7 +20,7 @@ const filteredHeadings = headings.filter(({ depth }) => depth >= 2 && depth <= 3
 >
   <summary
     class="list-none marker:hidden marker:content-[''] before:content-['>'] before:text-accent before:font-semibold before:absolute before:left-3 cursor-pointer"
-    >Table of Contents</summary
+    >{title}</summary
   >
   <nav class="w-full text-sm xl:-ml-1">
     <ul class="mt-4 flex flex-col max-w-full">

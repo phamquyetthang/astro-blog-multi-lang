@@ -1,4 +1,5 @@
 ---
+lang: en
 title: "JavaScript's Prototypal Inheritance"
 published: 2025-07-13
 draft: false

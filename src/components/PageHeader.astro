@@ -1,15 +1,20 @@
 ---
+import { getLangFromAstro, stripLangFromPath, translate, type Lang } from '~/i18n/config'
+
 interface Props {
   title?: string
   titlePieces?: string[]
+  lang?: Lang
 }
 
-const { title, titlePieces } = Astro.props
+const { title, titlePieces, lang: langProp } = Astro.props
+const lang = langProp ?? getLangFromAstro(Astro)
 
-const splitPath: string[] = Astro.url.pathname
+const strippedPath = stripLangFromPath(Astro.url.pathname)
+const splitPath: string[] = strippedPath
   .split('/')
-  .filter(Boolean) // Remove empty parts
-  .map((part) => decodeURIComponent(part)) // For Unicode chars kept by github-slugger
+  .filter(Boolean)
+  .map((part) => decodeURIComponent(part))
 
 const pieces = titlePieces ?? splitPath
 
@@ -17,7 +22,7 @@ if (pieces.length === 0) {
   pieces.push('home')
 }
 
-const titleFromPieces = pieces.map((part) => `/ ${part}`)
+const titleFromPieces = pieces.map((part) => `/ ${translate(lang, `breadcrumbs.${part}`)}`)
 ---
 
 <div

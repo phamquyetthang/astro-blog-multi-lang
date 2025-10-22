@@ -1,4 +1,5 @@
 ---
+lang: en
 title: 'Concurrency in Go'
 published: 2025-07-04
 draft: false

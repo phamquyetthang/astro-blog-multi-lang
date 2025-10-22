@@ -66,7 +66,7 @@ export interface CollationGroup<CollectionType extends keyof DataEntryMap> {
 }
 
 export type NavLink = {
-  name: string
+  labelKey: string
   url: string
   external?: boolean
 }

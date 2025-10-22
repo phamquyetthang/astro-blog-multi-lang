@@ -2,13 +2,15 @@
 import { dateString, SeriesGroup } from '~/utils'
 import { render, type CollectionEntry } from 'astro:content'
 import type { Collation } from '~/types'
+import { translate, type Lang } from '~/i18n/config'
 
 interface Props {
   post: CollectionEntry<'posts'>
   class?: string
+  lang: Lang
 }
 
-const { post, class: className } = Astro.props
+const { post, class: className, lang } = Astro.props
 const { remarkPluginFrontmatter } = await render(post)
 const { minutesRead } = remarkPluginFrontmatter
 const seriesFrontmatter = post.data.series
@@ -16,7 +18,7 @@ let series: Collation<'posts'> | undefined
 let seriesPostNumber: number | undefined
 let seriesTotal: number | undefined
 if (seriesFrontmatter) {
-  const seriesGroup = await SeriesGroup.build()
+  const seriesGroup = await SeriesGroup.build(lang)
   series = seriesGroup.match(seriesFrontmatter)
   if (!series) {
     // This should never happen if the series data is correct
@@ -25,6 +27,10 @@ if (seriesFrontmatter) {
   seriesPostNumber = series.entries.findIndex((p) => p.id === post.id) + 1
   seriesTotal = series.entries.length
 }
+const minutesReadText =
+  typeof minutesRead === 'number'
+    ? translate(lang, 'post.minutesRead', { minutes: minutesRead })
+    : undefined
 ---
 
 <div class:list={[className, 'text-foreground/80']}>
@@ -51,9 +57,9 @@ if (seriesFrontmatter) {
         )
       }
       {
-        minutesRead && (
+        minutesReadText && (
           <span class="before:content-['·'] before:inline-block before:mx-0.5">
-            {minutesRead}
+            {minutesReadText}
           </span>
         )
       }

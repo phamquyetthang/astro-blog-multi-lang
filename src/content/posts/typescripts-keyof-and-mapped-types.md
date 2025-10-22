@@ -1,4 +1,5 @@
 ---
+lang: en
 title: "TypeScript's keyof and Mapped Types"
 published: 2025-07-14
 draft: false

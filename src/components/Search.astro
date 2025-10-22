@@ -2,8 +2,17 @@
 import '@pagefind/default-ui/css/ui.css'
 import IconCircleX from '~/icons/circle-x.svg'
 import IconSearch from '~/icons/search.svg'
+import { translate, type Lang } from '~/i18n/config'
 
-const { trailingSlashes = false } = Astro.props
+interface Props {
+  trailingSlashes?: boolean
+  lang: Lang
+}
+
+const { trailingSlashes = false, lang } = Astro.props as Props
+const openLabel = translate(lang, 'search.open')
+const dialogLabel = translate(lang, 'search.dialogLabel')
+const devInfo = translate(lang, 'search.devInfo')
 ---
 
 <site-search class="ms-auto" id="search" data-trailing-slashes={trailingSlashes}>
@@ -14,10 +23,10 @@ const { trailingSlashes = false } = Astro.props
     disabled
   >
     <IconSearch class="size-6 text-accent" />
-    <span class="sr-only">Open Search</span>
+    <span class="sr-only">{openLabel}</span>
   </button>
   <dialog
-    aria-label="search"
+    aria-label={dialogLabel}
     class="text-foreground! bg-background max-h-5/6 min-h-48 w-7/8 sm:w-5/6 max-w-xl border-double! border-4 border-accent/30 shadow-sm backdrop:backdrop-blur-sm open:flex mx-auto mt-10 sm:mt-16 mb-auto rounded-xl"
   >
     <div class="dialog-frame flex grow flex-col gap-4 p-6 pt-6 max-w-full">
@@ -27,10 +36,7 @@ const { trailingSlashes = false } = Astro.props
       {
         import.meta.env.DEV ? (
           <div class="mx-auto text-center">
-            <p>
-              Search is only available in production builds. <br />
-              Try building and previewing the site to test it out locally.
-            </p>
+            <p set:html={devInfo}></p>
           </div>
         ) : (
           <div class="search-container">

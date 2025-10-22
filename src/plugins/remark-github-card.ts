@@ -48,15 +48,22 @@ export const remarkGithubCard: Plugin<[], Root> = () => async (tree) => {
 
       // If its a repo link
       if (repoParts.length > 1) {
-        const res = await fetch(`https://api.github.com/repos/${repoName}`, {
-          headers: {
-            'User-Agent': USER_AGENT,
-          },
-        })
-        if (!res || res.status !== 200) {
-          throw new Error(`Fetching GitHub repo data for "${repoName}" failed`)
+        let data: any
+        try {
+          const res = await fetch(`https://api.github.com/repos/${repoName}`, {
+            headers: {
+              'User-Agent': USER_AGENT,
+            },
+          })
+          if (!res || res.status !== 200) {
+            console.warn(`Fetching GitHub repo data for "${repoName}" failed`)
+            return node
+          }
+          data = await res.json()
+        } catch (error) {
+          console.warn(`Fetching GitHub repo data for "${repoName}" failed`, error)
+          return node
         }
-        const data = await res.json()
         const description = data.description
           ? data.description.replace(/:[a-zA-Z0-9_]+:/g, '')
           : undefined
@@ -107,15 +114,22 @@ export const remarkGithubCard: Plugin<[], Root> = () => async (tree) => {
 
       // If its a user link
       else if (repoParts.length === 1) {
-        const res = await fetch(`https://api.github.com/users/${repoName}`, {
-          headers: {
-            'User-Agent': USER_AGENT,
-          },
-        })
-        if (!res || res.status !== 200) {
-          throw new Error(`Fetching GitHub user data for "${repoName}" failed`)
+        let data: any
+        try {
+          const res = await fetch(`https://api.github.com/users/${repoName}`, {
+            headers: {
+              'User-Agent': USER_AGENT,
+            },
+          })
+          if (!res || res.status !== 200) {
+            console.warn(`Fetching GitHub user data for "${repoName}" failed`)
+            return node
+          }
+          data = await res.json()
+        } catch (error) {
+          console.warn(`Fetching GitHub user data for "${repoName}" failed`, error)
+          return node
         }
-        const data = await res.json()
         const backgroundImage = data.avatar_url
         const followers = Intl.NumberFormat(undefined, {
           notation: 'compact',

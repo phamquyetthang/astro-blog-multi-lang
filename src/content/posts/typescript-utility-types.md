@@ -1,4 +1,5 @@
 ---
+lang: en
 title: 'TypeScript Utility Types'
 published: 2025-07-06
 draft: false

@@ -1,4 +1,5 @@
 ---
+lang: en
 title: 'Advanced TypeScript: Conditional Types'
 published: 2025-07-10
 draft: false

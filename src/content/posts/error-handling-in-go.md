@@ -1,4 +1,5 @@
 ---
+lang: en
 title: 'Error Handling in Go'
 published: 2025-07-08
 draft: false

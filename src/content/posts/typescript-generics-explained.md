@@ -1,4 +1,5 @@
 ---
+lang: en
 title: 'TypeScript Generics Explained'
 published: 2025-07-02
 draft: false

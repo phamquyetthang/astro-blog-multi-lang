@@ -3,9 +3,10 @@ import type { NavLink } from '~/types'
 
 interface Props {
   link: NavLink
+  label: string
 }
 
-const { link } = Astro.props
+const { link, label } = Astro.props
 ---
 
 <a
@@ -14,5 +15,5 @@ const { link } = Astro.props
   target={link.external ? '_blank' : undefined}
   href={link.url}
 >
-  {link.name}
+  {label}
 </a>

@@ -1,0 +1,50 @@
+---
+import type { GetStaticPaths } from 'astro'
+import Layout from '~/layouts/Layout.astro'
+import { getSortedPosts } from '~/utils'
+import Pagination from '~/components/Pagination.astro'
+import siteConfig from '~/site.config'
+import PostPreview from '~/components/PostPreview.astro'
+import PageHeader from '~/components/PageHeader.astro'
+import { getLangFromAstro, supportedLangs, translate } from '~/i18n/config'
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const paths: ReturnType<typeof paginate> = []
+  for (const lang of supportedLangs) {
+    const sortedPosts = await getSortedPosts(lang)
+    const paginated = paginate(sortedPosts.slice().reverse(), {
+      pageSize: siteConfig.pageSize,
+      params: { lang },
+      props: { lang },
+    })
+    paths.push(...paginated)
+  }
+  return paths
+}) satisfies GetStaticPaths
+
+const { page, lang: langProp } = Astro.props
+const lang = langProp ?? getLangFromAstro(Astro)
+const archiveTitle = translate(lang, 'archive.title')
+const pageTitle =
+  archiveTitle +
+  (page.currentPage > 1
+    ? ` - ${translate(lang, 'pagination.page', { page: page.currentPage })}`
+    : '')
+const description = translate(lang, 'archive.description')
+const newerText = translate(lang, 'pagination.newer')
+const olderText = translate(lang, 'pagination.older')
+---
+
+<Layout lang={lang} title={pageTitle} description={description}>
+  <div class="mt-2 sm:mt-0">
+    <PageHeader title={archiveTitle} lang={lang} />
+    {page.data.map((post) => <PostPreview post={post} lang={lang} />)}
+    <Pagination
+      prevLink={page.url.prev ? page.url.prev : undefined}
+      prevText={newerText}
+      nextLink={page.url.next ? page.url.next : undefined}
+      nextText={olderText}
+      lang={lang}
+    />
+  </div>
+</Layout>

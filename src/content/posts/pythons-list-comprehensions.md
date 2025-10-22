@@ -1,4 +1,5 @@
 ---
+lang: en
 title: "Python's List Comprehensions"
 published: 2025-07-07
 draft: false

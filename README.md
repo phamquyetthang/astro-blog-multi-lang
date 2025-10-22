@@ -64,6 +64,16 @@ Please take a look at `src/site.config.ts` for more information about the config
 
 To add your own content, check out the `src/content` directory. Feel free to remove all the example content and replace it with your own!
 
+## 🌐 Internationalization
+
+MultiTerm now ships with first-class multi-language support. English (`en`) and Vietnamese (`vi`) are included out of the box, and adding more locales only requires a few changes:
+
+- **Translations:** Update `src/i18n/config.ts` with your locale code, display label, and translation strings. The `defaultLang` export controls the fallback language while `supportedLangs` is derived automatically.
+- **Routes:** Pages are organized under `src/pages/[lang]/`, so each localized route is automatically prefixed with the language code (for example, `/en/posts` or `/vi/posts`). Astro’s dynamic `[lang]` param ensures the layout, metadata, and canonical URLs are generated per locale.
+- **Content:** Set the `lang` frontmatter field on every markdown or MDX entry in `src/content` (posts, pages, etc.). Content is filtered at build time so each language view only shows documents written for that locale.
+
+Once those pieces are in place you can run `npm run build && npm run preview` to verify every locale renders correctly, switch languages via the header dropdown, and confirm localized URLs and metadata.
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE.txt).

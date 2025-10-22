@@ -1,4 +1,5 @@
 ---
+lang: en
 title: 'Python Decorators Demystified'
 published: 2025-07-03
 draft: false

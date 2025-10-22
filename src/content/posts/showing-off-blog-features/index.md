@@ -1,4 +1,5 @@
 ---
+lang: en
 title: 'Showing Off Blog Features'
 published: 2025-07-20
 draft: false

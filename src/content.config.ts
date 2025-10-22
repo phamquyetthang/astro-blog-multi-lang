@@ -1,11 +1,15 @@
 import { defineCollection, z } from 'astro:content'
 import { glob } from 'astro/loaders'
+import { defaultLang, supportedLangs } from '~/i18n/config'
+
+const languageEnum = z.enum(supportedLangs as [typeof supportedLangs[number], ...typeof supportedLangs[number][]])
 
 const postsCollection = defineCollection({
   loader: glob({ pattern: ['**/*.md', '**/*.mdx'], base: './src/content/posts' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
+      lang: languageEnum.default(defaultLang),
       published: z.coerce.date(),
       // updated: z.coerce.date().optional(),
       draft: z.boolean().optional().default(false),
@@ -24,9 +28,10 @@ const postsCollection = defineCollection({
 })
 
 const homeCollection = defineCollection({
-  loader: glob({ pattern: ['home.md', 'home.mdx'], base: './src/content' }),
+  loader: glob({ pattern: ['home/**/*.{md,mdx}'], base: './src/content' }),
   schema: ({ image }) =>
     z.object({
+      lang: languageEnum.default(defaultLang),
       avatarImage: z
         .object({
           src: image(),
@@ -38,9 +43,10 @@ const homeCollection = defineCollection({
 })
 
 const addendumCollection = defineCollection({
-  loader: glob({ pattern: ['addendum.md', 'addendum.mdx'], base: './src/content' }),
+  loader: glob({ pattern: ['addendum/**/*.{md,mdx}'], base: './src/content' }),
   schema: ({ image }) =>
     z.object({
+      lang: languageEnum.default(defaultLang),
       avatarImage: z
         .object({
           src: image(),
@@ -50,8 +56,18 @@ const addendumCollection = defineCollection({
     }),
 })
 
+const pagesCollection = defineCollection({
+  loader: glob({ pattern: ['pages/**/*.{md,mdx}'], base: './src/content' }),
+  schema: () =>
+    z.object({
+      title: z.string(),
+      lang: languageEnum.default(defaultLang),
+    }),
+})
+
 export const collections = {
   posts: postsCollection,
   home: homeCollection,
   addendum: addendumCollection,
+  pages: pagesCollection,
 }

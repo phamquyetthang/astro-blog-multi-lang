@@ -7,6 +7,7 @@ import { dateString, getSortedPosts, resolveThemeColorStyles } from '~/utils'
 import path from 'path'
 import fs from 'fs'
 import type { ReactNode } from 'react'
+import { supportedLangs } from '~/i18n/config'
 
 // Load the font file as binary data
 const fontPath = path.resolve(
@@ -19,22 +20,16 @@ let avatarData: Buffer | undefined
 let avatarBase64: string | undefined
 if (
   fs.existsSync(avatarPath) &&
-  (path.extname(avatarPath).toLowerCase() === '.jpg' ||
-    path.extname(avatarPath).toLowerCase() === '.jpeg')
+  (path.extname(avatarPath).toLowerCase() === '.jpg' || path.extname(avatarPath).toLowerCase() === '.jpeg')
 ) {
   avatarData = fs.readFileSync(avatarPath)
   avatarBase64 = `data:image/jpeg;base64,${avatarData.toString('base64')}`
 }
 
 const defaultTheme =
-  siteConfig.themes.default === 'auto'
-    ? siteConfig.themes.include[0]
-    : siteConfig.themes.default
+  siteConfig.themes.default === 'auto' ? siteConfig.themes.include[0] : siteConfig.themes.default
 
-const themeStyles = await resolveThemeColorStyles(
-  [defaultTheme],
-  siteConfig.themes.overrides,
-)
+const themeStyles = await resolveThemeColorStyles([defaultTheme], siteConfig.themes.overrides)
 const bg = themeStyles[defaultTheme]?.background
 const fg = themeStyles[defaultTheme]?.foreground
 const accent = themeStyles[defaultTheme]?.accent
@@ -44,7 +39,6 @@ if (!bg || !fg || !accent) {
 }
 
 const ogOptions: SatoriOptions = {
-  // debug: true,
   fonts: [
     {
       data: fontData,
@@ -62,8 +56,8 @@ const markup = (title: string, pubDate: string | undefined, author: string) =>
     <div style="border-width: 12px; border-radius: 80px;" tw="flex items-center max-w-full p-8 border-[${accent}]/30">
       ${
         avatarBase64
-          ? `<div tw="flex flex-col justify-center items-center w-1/3 h-100">
-            <img src="${avatarBase64}" tw="flex w-full rounded-full border-[${accent}]/30" />
+          ? `<div tw=\"flex flex-col justify-center items-center w-1/3 h-100\">
+            <img src=\"${avatarBase64}\" tw=\"flex w-full rounded-full border-[${accent}]/30\" />
         </div>`
           : ''
       }
@@ -90,20 +84,26 @@ export async function GET(context: APIContext) {
 }
 
 export async function getStaticPaths() {
-  const posts = await getSortedPosts()
-  return posts
-    .map((post) => ({
-      params: { slug: post.id },
-      props: {
-        pubDate: post.data.published ? dateString(post.data.published) : undefined,
-        title: post.data.title,
-        author: post.data.author || siteConfig.author,
-      },
-    }))
-    .concat([
-      {
-        params: { slug: '__default' },
-        props: { pubDate: undefined, title: siteConfig.title, author: siteConfig.author },
-      },
-    ])
+  const paths: Array<{
+    params: { lang: string; slug: string }
+    props: { pubDate: string | undefined; title: string; author: string }
+  }> = []
+  for (const lang of supportedLangs) {
+    const posts = await getSortedPosts(lang)
+    posts.forEach((post) => {
+      paths.push({
+        params: { lang, slug: post.id },
+        props: {
+          pubDate: post.data.published ? dateString(post.data.published) : undefined,
+          title: post.data.title,
+          author: post.data.author || siteConfig.author,
+        },
+      })
+    })
+    paths.push({
+      params: { lang, slug: '__default' },
+      props: { pubDate: undefined, title: siteConfig.title, author: siteConfig.author },
+    })
+  }
+  return paths
 }

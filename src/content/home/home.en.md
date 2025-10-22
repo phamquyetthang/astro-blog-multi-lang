@@ -1,6 +1,7 @@
 ---
+lang: en
 avatarImage:
-  src: './avatar.jpg'
+  src: '../avatar.jpg'
   alt: 'My avatar'
 githubCalendar: 'stelcodes'
 ---

@@ -15,6 +15,7 @@ import {
 import { getCollection, type CollectionEntry } from 'astro:content'
 import Color from 'color'
 import { slug } from 'github-slugger'
+import { defaultLang, getLocalizedPath, type Lang } from '~/i18n/config'
 
 export function dateString(date: Date) {
   return date.toISOString().split('T')[0]
@@ -214,9 +215,10 @@ export async function resolveThemeColorStyles(
   return Object.fromEntries(await Promise.all(resolvedThemes)) as ThemesWithColorStyles
 }
 
-export async function getSortedPosts() {
+export async function getSortedPosts(lang: Lang = defaultLang) {
   const allPosts = await getCollection('posts', ({ data }) => {
-    return import.meta.env.PROD ? data.draft !== true : true
+    const isDraft = import.meta.env.PROD ? data.draft === true : false
+    return !isDraft && data.lang === lang
   })
   const sortedPosts = allPosts.sort((a, b) => {
     return a.data.published < b.data.published ? -1 : 1
@@ -228,11 +230,13 @@ abstract class PostsCollationGroup implements CollationGroup<'posts'> {
   title: string
   url: string
   collations: Collation<'posts'>[]
+  lang: Lang
 
-  constructor(title: string, url: string, collations: Collation<'posts'>[]) {
+  constructor(title: string, url: string, collations: Collation<'posts'>[], lang: Lang) {
     this.title = title
     this.url = url
     this.collations = collations
+    this.lang = lang
   }
 
   sortCollationsAlpha(): Collation<'posts'>[] {
@@ -283,13 +287,14 @@ abstract class PostsCollationGroup implements CollationGroup<'posts'> {
 
 export class SeriesGroup extends PostsCollationGroup {
   // Private constructor to enforce the use of the static build method
-  private constructor(title: string, url: string, items: Collation<'posts'>[]) {
-    super(title, url, items)
+  private constructor(title: string, url: string, items: Collation<'posts'>[], lang: Lang) {
+    super(title, url, items, lang)
   }
   // Factory method to create a SeriesGroup instance with async data fetching
-  static async build(posts?: CollectionEntry<'posts'>[]): Promise<SeriesGroup> {
-    const sortedPosts = posts || (await getSortedPosts())
-    const seriesGroup = new SeriesGroup('Series', '/series', [])
+  static async build(lang: Lang = defaultLang, posts?: CollectionEntry<'posts'>[]): Promise<SeriesGroup> {
+    const sortedPosts = posts || (await getSortedPosts(lang))
+    const baseUrl = getLocalizedPath('/series', lang)
+    const seriesGroup = new SeriesGroup('Series', baseUrl, [], lang)
     sortedPosts.forEach((post) => {
       const frontmatterSeries = post.data.series
       if (frontmatterSeries) {
@@ -302,14 +307,15 @@ export class SeriesGroup extends PostsCollationGroup {
 
 export class TagsGroup extends PostsCollationGroup {
   // Private constructor to enforce the use of the static build method
-  private constructor(title: string, url: string, items: Collation<'posts'>[]) {
-    super(title, url, items)
+  private constructor(title: string, url: string, items: Collation<'posts'>[], lang: Lang) {
+    super(title, url, items, lang)
   }
 
   // Factory method to create a SeriesGroup instance with async data fetching
-  static async build(posts?: CollectionEntry<'posts'>[]): Promise<SeriesGroup> {
-    const sortedPosts = posts || (await getSortedPosts())
-    const tagsGroup = new TagsGroup('Tags', '/tags', [])
+  static async build(lang: Lang = defaultLang, posts?: CollectionEntry<'posts'>[]): Promise<TagsGroup> {
+    const sortedPosts = posts || (await getSortedPosts(lang))
+    const baseUrl = getLocalizedPath('/tags', lang)
+    const tagsGroup = new TagsGroup('Tags', baseUrl, [], lang)
     sortedPosts.forEach((post) => {
       const frontmatterTags = post.data.tags || []
       frontmatterTags.forEach((tag) => {

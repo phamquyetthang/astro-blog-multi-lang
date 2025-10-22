@@ -1,0 +1,30 @@
+---
+import Layout from '~/layouts/Layout.astro'
+import { getCollection, render } from 'astro:content'
+import { getLangFromAstro, supportedLangs, translate } from '~/i18n/config'
+
+export const getStaticPaths = () => {
+  return supportedLangs.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const lang = getLangFromAstro(Astro)
+const pages = await getCollection(
+  'pages',
+  (entry) => entry.id.startsWith('pages/about') && entry.data.lang === lang,
+)
+if (pages.length === 0) {
+  throw new Error(`No about page found for language "${lang}"`)
+}
+const page = pages[0]
+const { Content } = await render(page)
+const description = translate(lang, 'breadcrumbs.about')
+---
+
+<Layout lang={lang} title={page.data.title} description={description}>
+  <article class="max-w-full py-7.5 prose">
+    <h1 class="md:mx-2 mb-3 text-[1.75rem] text-heading1 font-semibold"># {page.data.title}</h1>
+    <Content />
+  </article>
+</Layout>

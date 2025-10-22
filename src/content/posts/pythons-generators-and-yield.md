@@ -1,4 +1,5 @@
 ---
+lang: en
 title: "Python's Generators and Yield"
 published: 2025-07-11
 draft: false

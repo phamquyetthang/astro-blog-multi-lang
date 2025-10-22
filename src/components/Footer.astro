@@ -1,6 +1,16 @@
 ---
 import siteConfig from '~/site.config'
 import SocialLinks from '~/components/SocialLinks.astro'
+import { translate, type Lang } from '~/i18n/config'
+
+interface Props {
+  lang: Lang
+}
+
+const { lang } = Astro.props
+const poweredBy = translate(lang, 'footer.poweredBy')
+const rights = translate(lang, 'footer.rights', { author: siteConfig.author, year: new Date().getFullYear() })
+const andText = translate(lang, 'footer.and')
 ---
 
 <footer
@@ -8,18 +18,17 @@ import SocialLinks from '~/components/SocialLinks.astro'
 >
   {siteConfig.socialLinks && <SocialLinks socialLinks={siteConfig.socialLinks} />}
   <div class="flex flex-col md:flex-row flex-wrap flex-1 items-center justify-center">
-    <span class="my-1">
-      {siteConfig.author} © 2025
-    </span>
+    <span class="my-1">{rights}</span>
     <span class="mx-5 hidden md:block"> :: </span>
     <span class="my-1">
-      Powered by <a
+      {poweredBy} <a
         class="underline"
         target="_blank"
         rel="noopener noreferrer"
         href="https://astro.build">Astro</a
       >
-      & <a
+      {` ${andText} `}
+      <a
         class="underline"
         target="_blank"
         rel="noopener noreferrer"

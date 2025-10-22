@@ -29,19 +29,19 @@ const config: SiteConfig = {
   // The navigation links to display in the header.
   navLinks: [
     {
-      name: 'Home',
+      labelKey: 'nav.home',
       url: '/',
     },
     {
-      name: 'About',
+      labelKey: 'nav.about',
       url: '/about',
     },
     {
-      name: 'Archive',
+      labelKey: 'nav.posts',
       url: '/posts',
     },
     {
-      name: 'GitHub',
+      labelKey: 'nav.github',
       url: 'https://github.com/stelcodes/multiterm-astro',
       external: true,
     },

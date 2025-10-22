@@ -1,0 +1,56 @@
+---
+import {
+  languages,
+  supportedLangs,
+  getLocalizedPath,
+  stripLangFromPath,
+  translate,
+  type Lang,
+} from '~/i18n/config'
+
+interface Props {
+  lang: Lang
+}
+
+const { lang } = Astro.props
+const switcherLabel = translate(lang, 'language.switcherLabel')
+const pathname = Astro.url.pathname
+const basePath = stripLangFromPath(pathname)
+const options = supportedLangs.map((code) => ({
+  code,
+  label: languages[code].label,
+  href: getLocalizedPath(basePath, code),
+}))
+---
+
+<form class="language-switcher">
+  <label class="sr-only" for="language-switcher-select">{switcherLabel}</label>
+  <select
+    id="language-switcher-select"
+    class="px-2 py-1 rounded-lg border-1 border-accent/30 bg-background text-foreground/90"
+    on:change={(event) => {
+      const target = event.target as HTMLSelectElement
+      if (target?.value) {
+        window.location.href = target.value
+      }
+    }}
+  >
+    {options.map((option) => (
+      <option value={option.href} selected={option.code === lang}>
+        {option.label}
+      </option>
+    ))}
+  </select>
+</form>
+
+<style>
+  .language-switcher select {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+      linear-gradient(135deg, currentColor 50%, transparent 50%);
+    background-position: calc(100% - 15px) calc(1em + 2px), calc(100% - 10px) calc(1em + 2px);
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 2rem;
+  }
+</style>

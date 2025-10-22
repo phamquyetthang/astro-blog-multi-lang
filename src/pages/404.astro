@@ -1,7 +1,13 @@
 ---
 import Layout from '~/layouts/Layout.astro'
+import { getLangFromAstro, translate } from '~/i18n/config'
+
+const lang = getLangFromAstro(Astro)
+const title = translate(lang, 'notFound.title')
+const message = translate(lang, 'notFound.message')
 ---
 
-<Layout>
-  <h1 class="inline-block m-auto p-4 text-accent text-4xl">404</h1>
+<Layout lang={lang} title={title} description={message}>
+  <h1 class="inline-block m-auto p-4 text-accent text-4xl">{title}</h1>
+  <p class="text-center text-foreground/80">{message}</p>
 </Layout>

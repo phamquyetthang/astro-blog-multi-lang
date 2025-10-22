@@ -1,0 +1,47 @@
+---
+import type { GetStaticPaths } from 'astro'
+import Layout from '~/layouts/Layout.astro'
+import { TagsGroup } from '~/utils'
+import Pagination from '~/components/Pagination.astro'
+import siteConfig from '~/site.config'
+import PostPreview from '~/components/PostPreview.astro'
+import PageHeader from '~/components/PageHeader.astro'
+import { getLangFromAstro, supportedLangs, translate } from '~/i18n/config'
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const paths = [] as ReturnType<typeof paginate>
+  for (const lang of supportedLangs) {
+    const tagsGroup = await TagsGroup.build(lang)
+    const pages = tagsGroup.collations.flatMap((tags) => {
+      return paginate(tags.entries.slice().reverse(), {
+        props: { tagTitle: tags.title, lang },
+        params: { tag: tags.titleSlug, lang },
+        pageSize: siteConfig.pageSize,
+      })
+    })
+    paths.push(...pages)
+  }
+  return paths
+}) satisfies GetStaticPaths
+
+const { page, tagTitle, lang: langProp } = Astro.props
+const lang = langProp ?? getLangFromAstro(Astro)
+const titlePieces = ['tags', tagTitle]
+const description = translate(lang, 'tagsPage.description', { tag: tagTitle })
+const newerText = translate(lang, 'pagination.newer')
+const olderText = translate(lang, 'pagination.older')
+---
+
+<Layout lang={lang} title={`${translate(lang, 'breadcrumbs.tags')}: ${tagTitle}`} description={description}>
+  <div class="mt-2 sm:mt-0">
+    <PageHeader titlePieces={titlePieces} lang={lang} />
+    {page.data.map((post) => <PostPreview post={post} lang={lang} />)}
+    <Pagination
+      prevLink={page.url.prev ? encodeURI(page.url.prev) : undefined}
+      prevText={newerText}
+      nextLink={page.url.next ? encodeURI(page.url.next) : undefined}
+      nextText={olderText}
+      lang={lang}
+    />
+  </div>
+</Layout>
