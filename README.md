@@ -19,25 +19,25 @@ Check out the example site [PageSpeed scores](https://pagespeed.web.dev/analysis
 **Clone the Repository**:
 
 ```bash
-git clone --depth 1 https://github.com/stelcodes/multiterm-astro my-new-blog && cd my-new-blog
+git clone --depth 1 https://github.com/phamquyetthang/astro-blog-multi-lang my-new-blog && cd my-new-blog
 ```
 
 **Install Dependencies**:
 
 ```bash
-npm install
+yarn
 ```
 
 **Start the Development Server**:
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 **Build Your Site and View the Results**:
 
 ```bash
-npm run build && npm run preview
+yarn build && yarn preview
 ```
 
 ## 🛠️ Configuration
