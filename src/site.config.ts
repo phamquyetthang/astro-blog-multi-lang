@@ -31,19 +31,23 @@ const config: SiteConfig = {
     {
       name: 'Home',
       url: '/',
+      i18nKey: 'nav.home',
     },
     {
       name: 'About',
       url: '/about',
+      i18nKey: 'nav.about',
     },
     {
       name: 'Archive',
       url: '/posts',
+      i18nKey: 'nav.archive',
     },
     {
       name: 'GitHub',
       url: 'https://github.com/stelcodes/multiterm-astro',
       external: true,
+      i18nKey: 'nav.github',
     },
   ],
   // The theming configuration for the site.

@@ -15,6 +15,7 @@ import {
 import { getCollection, type CollectionEntry } from 'astro:content'
 import Color from 'color'
 import { slug } from 'github-slugger'
+import { defaultLang, localizePath, type Lang } from '~/i18n/config'
 
 export function dateString(date: Date) {
   return date.toISOString().split('T')[0]
@@ -214,9 +215,10 @@ export async function resolveThemeColorStyles(
   return Object.fromEntries(await Promise.all(resolvedThemes)) as ThemesWithColorStyles
 }
 
-export async function getSortedPosts() {
+export async function getSortedPosts(lang: Lang = defaultLang) {
   const allPosts = await getCollection('posts', ({ data }) => {
-    return import.meta.env.PROD ? data.draft !== true : true
+    const draftOk = import.meta.env.PROD ? data.draft !== true : true
+    return draftOk && data.lang === lang
   })
   const sortedPosts = allPosts.sort((a, b) => {
     return a.data.published < b.data.published ? -1 : 1
@@ -287,9 +289,13 @@ export class SeriesGroup extends PostsCollationGroup {
     super(title, url, items)
   }
   // Factory method to create a SeriesGroup instance with async data fetching
-  static async build(posts?: CollectionEntry<'posts'>[]): Promise<SeriesGroup> {
-    const sortedPosts = posts || (await getSortedPosts())
-    const seriesGroup = new SeriesGroup('Series', '/series', [])
+  static async build(
+    posts?: CollectionEntry<'posts'>[],
+    lang: Lang = defaultLang,
+  ): Promise<SeriesGroup> {
+    const sortedPosts = posts || (await getSortedPosts(lang))
+    const baseUrl = localizePath('/series', lang)
+    const seriesGroup = new SeriesGroup('Series', baseUrl, [])
     sortedPosts.forEach((post) => {
       const frontmatterSeries = post.data.series
       if (frontmatterSeries) {
@@ -307,9 +313,13 @@ export class TagsGroup extends PostsCollationGroup {
   }
 
   // Factory method to create a SeriesGroup instance with async data fetching
-  static async build(posts?: CollectionEntry<'posts'>[]): Promise<SeriesGroup> {
-    const sortedPosts = posts || (await getSortedPosts())
-    const tagsGroup = new TagsGroup('Tags', '/tags', [])
+  static async build(
+    posts?: CollectionEntry<'posts'>[],
+    lang: Lang = defaultLang,
+  ): Promise<SeriesGroup> {
+    const sortedPosts = posts || (await getSortedPosts(lang))
+    const baseUrl = localizePath('/tags', lang)
+    const tagsGroup = new TagsGroup('Tags', baseUrl, [])
     sortedPosts.forEach((post) => {
       const frontmatterTags = post.data.tags || []
       frontmatterTags.forEach((tag) => {

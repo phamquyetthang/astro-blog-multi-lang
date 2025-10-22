@@ -69,6 +69,7 @@ export type NavLink = {
   name: string
   url: string
   external?: boolean
+  i18nKey?: string
 }
 
 export type AdmonitionType = 'tip' | 'note' | 'important' | 'caution' | 'warning'

@@ -7,15 +7,19 @@ import SelectThemeLoader from '~/components/SelectThemeLoader.astro'
 import siteConfig from '~/site.config'
 import { pick, resolveThemeColorStyles } from '~/utils'
 import crypto from 'crypto'
+import { defaultLang, languages, type Lang } from '~/i18n/config'
 
 interface Props {
   title?: string
   description?: string
   tags?: string[]
   author?: string
+  lang?: Lang
 }
 
 const { title, description, tags, author } = Astro.props
+const lang: Lang = Astro.props.lang ?? defaultLang
+const htmlDirection = languages[lang]?.dir ?? 'ltr'
 const pageUrl = new URL(Astro.url.pathname, Astro.site).href.replace(/\/$/, '') // Remove trailing slash for consistency
 const pageType = Astro.url.pathname.startsWith('/posts') ? 'article' : 'website'
 const pageTitle = title ? `${title} - ${siteConfig.title}` : siteConfig.title
@@ -115,7 +119,8 @@ let generatedCss: string = cssLines.join('\n')
 
 <!doctype html>
 <html
-  lang="en"
+  lang={lang}
+  dir={htmlDirection}
   data-theme={defaultTheme}
   data-dark-theme={darkTheme}
   data-light-theme={lightTheme}
@@ -158,11 +163,11 @@ let generatedCss: string = cssLines.join('\n')
     <div
       class="flex flex-col max-w-3xl min-h-screen border-accent/10 m-auto p-3 sm:py-5 sm:px-6 md:py-10"
     >
-      <Header />
+      <Header lang={lang} />
       <main class="flex flex-col py-1">
         <slot />
       </main>
-      <Footer />
+      <Footer lang={lang} />
     </div>
   </body>
 </html>

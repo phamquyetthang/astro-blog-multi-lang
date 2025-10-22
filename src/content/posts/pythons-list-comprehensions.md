@@ -5,6 +5,7 @@ draft: false
 description: 'Learn how to use list comprehensions in Python for concise and readable code.'
 series: 'Python Basics'
 tags: ['python']
+lang: en
 ---
 
 List comprehensions provide a concise way to create lists in Python. Here's an example:

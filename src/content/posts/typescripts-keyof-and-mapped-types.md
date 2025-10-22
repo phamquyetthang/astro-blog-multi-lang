@@ -4,6 +4,7 @@ published: 2025-07-14
 draft: false
 description: 'Explore the keyof operator and mapped types in TypeScript for advanced type manipulation.'
 tags: ['typescript']
+lang: en
 ---
 
 The `keyof` operator and mapped types in TypeScript allow for advanced type manipulation. Here's an example:

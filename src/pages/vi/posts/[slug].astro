@@ -2,13 +2,12 @@
 import type { GetStaticPaths } from 'astro'
 import PostPage from '~/pages/_shared/PostPage.astro'
 import { getPostStaticPaths } from '~/pages/_shared/postPaths'
-import { defaultLang } from '~/i18n/config'
 
 export const getStaticPaths = (async () => {
-  return getPostStaticPaths(defaultLang)
+  return getPostStaticPaths('vi')
 }) satisfies GetStaticPaths
 
 const { post, prev, next } = Astro.props
 ---
 
-<PostPage post={post} prev={prev} next={next} lang={defaultLang} />
+<PostPage post={post} prev={prev} next={next} lang="vi" />

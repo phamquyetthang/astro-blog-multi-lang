@@ -1,0 +1,27 @@
+---
+import { getLanguageOptions, useTranslations, type Lang } from '~/i18n/config'
+
+interface Props {
+  lang: Lang
+}
+
+const { lang } = Astro.props
+const t = useTranslations(lang)
+const options = getLanguageOptions(Astro.url)
+const selectId = `language-switcher-${Math.random().toString(36).slice(2, 8)}`
+---
+
+<div class="block">
+  <label class="sr-only" for={selectId}>{t('language.switcherAria')}</label>
+  <select
+    id={selectId}
+    class="border-2 border-accent/40 rounded-xl bg-background px-2.5 py-1 text-sm cursor-pointer"
+    onchange="window.location.href=this.value"
+  >
+    {options.map((option) => (
+      <option value={option.href} selected={option.lang === lang}>
+        {option.label}
+      </option>
+    ))}
+  </select>
+</div>

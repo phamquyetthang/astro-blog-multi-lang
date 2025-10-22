@@ -4,6 +4,7 @@ published: 2025-07-12
 draft: false
 description: 'Explore how Go uses interfaces to achieve polymorphism.'
 tags: ['go']
+lang: en
 ---
 
 Interfaces in Go provide a way to achieve polymorphism. Here's an example:

@@ -5,6 +5,7 @@ draft: false
 description: 'An introduction to Python decorators and how to use them effectively.'
 series: 'Python Basics'
 tags: ['python']
+lang: en
 ---
 
 Decorators in Python are a powerful way to modify the behavior of functions or methods. Here's a simple example:

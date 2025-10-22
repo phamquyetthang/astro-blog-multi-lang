@@ -4,6 +4,7 @@ published: 2025-07-02
 draft: false
 description: 'Learn how to use generics in TypeScript to create reusable and type-safe code.'
 tags: ['typescript']
+lang: en
 ---
 
 Generics in TypeScript allow you to create reusable and type-safe components. Here's a simple example:

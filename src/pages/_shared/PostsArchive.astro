@@ -1,0 +1,44 @@
+---
+import Layout from '~/layouts/Layout.astro'
+import PostPreview from '~/components/PostPreview.astro'
+import Pagination from '~/components/Pagination.astro'
+import PageHeader from '~/components/PageHeader.astro'
+import { defaultLang, useTranslations, type Lang } from '~/i18n/config'
+
+interface Props {
+  lang?: Lang
+  page: {
+    data: any[]
+    currentPage: number
+    url: {
+      prev?: string | null
+      next?: string | null
+    }
+  }
+}
+
+const { lang = defaultLang, page } = Astro.props as Props
+const t = useTranslations(lang)
+const pageTitle =
+  page.currentPage > 1
+    ? t('archive.titleWithPage', { page: page.currentPage })
+    : t('archive.title')
+const description = t('archive.description')
+---
+
+<Layout lang={lang} title={pageTitle} description={description}>
+  <div class="mt-2 sm:mt-0">
+    <PageHeader lang={lang} title={pageTitle} />
+    {page.data.map((post) => (
+      <PostPreview post={post} lang={lang} />
+    ))}
+    <Pagination
+      prevLink={page.url.prev ?? undefined}
+      prevText={t('pagination.newerPosts')}
+      prevAriaLabel={t('paginationAria.previous')}
+      nextLink={page.url.next ?? undefined}
+      nextText={t('pagination.olderPosts')}
+      nextAriaLabel={t('paginationAria.next')}
+    />
+  </div>
+</Layout>

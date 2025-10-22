@@ -1,7 +1,10 @@
 ---
 import Layout from '~/layouts/Layout.astro'
+import { getLangFromUrl } from '~/i18n/config'
+
+const lang = getLangFromUrl(Astro.url)
 ---
 
-<Layout>
+<Layout lang={lang}>
   <h1 class="inline-block m-auto p-4 text-accent text-4xl">404</h1>
 </Layout>

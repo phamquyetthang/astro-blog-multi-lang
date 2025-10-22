@@ -4,6 +4,7 @@ published: 2025-07-08
 draft: false
 description: 'Understand how to handle errors effectively in Go.'
 tags: ['go']
+lang: en
 ---
 
 Go uses a simple and explicit approach to error handling. Here's an example:
