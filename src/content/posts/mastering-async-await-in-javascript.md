@@ -4,6 +4,7 @@ published: 2025-07-05
 draft: false
 description: 'Learn how to handle asynchronous operations in JavaScript using async/await.'
 tags: ['javascript']
+lang: en
 ---
 
 Async/await simplifies working with asynchronous code in JavaScript. Here's an example:

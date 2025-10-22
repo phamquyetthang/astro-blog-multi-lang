@@ -2,13 +2,12 @@
 import type { GetStaticPaths } from 'astro'
 import TagArchive from '~/pages/_shared/TagArchive.astro'
 import { getTagArchivePaths } from '~/pages/_shared/tagPaths'
-import { defaultLang } from '~/i18n/config'
 
 export const getStaticPaths = (async ({ paginate }) => {
-  return getTagArchivePaths(defaultLang, paginate)
+  return getTagArchivePaths('vi', paginate)
 }) satisfies GetStaticPaths
 
 const { page, tagTitle } = Astro.props
 ---
 
-<TagArchive lang={defaultLang} page={page} tagTitle={tagTitle} />
+<TagArchive lang="vi" page={page} tagTitle={tagTitle} />

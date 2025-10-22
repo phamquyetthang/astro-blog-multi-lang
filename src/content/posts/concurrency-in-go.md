@@ -4,6 +4,7 @@ published: 2025-07-04
 draft: false
 description: 'Explore how Go handles concurrency with goroutines and channels.'
 tags: ['go']
+lang: en
 ---
 
 Go is known for its excellent support for concurrency. The primary tools for concurrency in Go are goroutines and channels. Here's an example:

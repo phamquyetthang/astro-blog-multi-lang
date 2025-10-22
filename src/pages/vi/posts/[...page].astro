@@ -2,13 +2,12 @@
 import type { GetStaticPaths } from 'astro'
 import PostsArchive from '~/pages/_shared/PostsArchive.astro'
 import { getPostArchivePaths } from '~/pages/_shared/postsArchive'
-import { defaultLang } from '~/i18n/config'
 
 export const getStaticPaths = (async ({ paginate }) => {
-  return getPostArchivePaths(defaultLang, paginate)
+  return getPostArchivePaths('vi', paginate)
 }) satisfies GetStaticPaths
 
 const { page } = Astro.props
 ---
 
-<PostsArchive lang={defaultLang} page={page} />
+<PostsArchive lang="vi" page={page} />

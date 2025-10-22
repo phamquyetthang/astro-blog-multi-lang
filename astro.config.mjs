@@ -29,6 +29,13 @@ export default defineConfig({
   site: siteConfig.site,
   trailingSlash: siteConfig.trailingSlashes ? 'always' : 'never',
   prefetch: true,
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'vi'],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   markdown: {
     remarkPlugins: [
       [remarkDescription, { maxChars: 200 }],

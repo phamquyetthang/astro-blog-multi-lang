@@ -2,13 +2,12 @@
 import type { GetStaticPaths } from 'astro'
 import SeriesArchive from '~/pages/_shared/SeriesArchive.astro'
 import { getSeriesPaths } from '~/pages/_shared/seriesPaths'
-import { defaultLang } from '~/i18n/config'
 
 export const getStaticPaths = (async () => {
-  return getSeriesPaths(defaultLang)
+  return getSeriesPaths('vi')
 }) satisfies GetStaticPaths
 
 const { posts, seriesTitle } = Astro.props
 ---
 
-<SeriesArchive lang={defaultLang} posts={posts} seriesTitle={seriesTitle} />
+<SeriesArchive lang="vi" posts={posts} seriesTitle={seriesTitle} />

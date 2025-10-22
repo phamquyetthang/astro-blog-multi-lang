@@ -1,6 +1,7 @@
 ---
 import Layout from '~/layouts/Layout.astro'
 import type { MarkdownLayoutProps } from 'astro'
+import { getLangFromUrl } from '~/i18n/config'
 
 type Props = MarkdownLayoutProps<{
   // Define frontmatter props here
@@ -11,9 +12,10 @@ type Props = MarkdownLayoutProps<{
 // Now, `frontmatter`, `url`, and other Markdown layout properties
 // are accessible with type safety
 const { frontmatter } = Astro.props
+const lang = getLangFromUrl(Astro.url)
 ---
 
-<Layout title={frontmatter.title} description={frontmatter.description}>
+<Layout lang={lang} title={frontmatter.title} description={frontmatter.description}>
   <div class="max-w-full py-7.5">
     <h1 class="md:mx-2 mb-3 text-[1.75rem] text-heading1 font-semibold">
       # {frontmatter.title}

@@ -1,0 +1,88 @@
+---
+import Layout from '~/layouts/Layout.astro'
+import { getCollection, render } from 'astro:content'
+import { getSortedPosts } from '~/utils'
+import PostPreview from '~/components/PostPreview.astro'
+import Pagination from '~/components/Pagination.astro'
+import BlockHeader from '~/components/BlockHeader.astro'
+import HomeBanner from '~/components/HomeBanner.astro'
+import siteConfig from '~/site.config'
+import TagsSection from '~/components/TagsSection.astro'
+import SeriesSection from '~/components/SeriesSection.astro'
+import { defaultLang, localizePath, useTranslations, type Lang } from '~/i18n/config'
+
+interface Props {
+  lang?: Lang
+}
+
+const { lang = defaultLang } = Astro.props as Props
+const t = useTranslations(lang)
+
+const homeEntries = await getCollection('home')
+let HomeContent
+let homeAvatarImage
+let homeGithubCalendar
+const homeEntry =
+  homeEntries.find((entry) => entry.data.lang === lang) ??
+  homeEntries.find((entry) => entry.data.lang === defaultLang)
+if (homeEntry) {
+  const { Content } = await render(homeEntry)
+  HomeContent = Content
+  homeAvatarImage = homeEntry.data.avatarImage
+  homeGithubCalendar = homeEntry.data.githubCalendar
+}
+
+const sortedPosts = await getSortedPosts(lang)
+const postsHaveTags = sortedPosts.some((post) => post.data.tags && post.data.tags.length > 0)
+const postsHaveSeries = sortedPosts.some((post) => post.data.series)
+const latestPosts = [...sortedPosts]
+  .reverse()
+  .slice(0, Math.floor(siteConfig.pageSize / 2))
+---
+
+<Layout lang={lang}>
+  {
+    HomeContent && (
+      <HomeBanner avatarImage={homeAvatarImage} githubCalendar={homeGithubCalendar}>
+        <HomeContent />
+      </HomeBanner>
+    )
+  }
+  {
+    postsHaveSeries && (
+      <section>
+        <BlockHeader>{t('home.series')}</BlockHeader>
+        <SeriesSection posts={sortedPosts} lang={lang} />
+      </section>
+    )
+  }
+  {
+    postsHaveTags && (
+      <section>
+        <BlockHeader>{t('home.tags')}</BlockHeader>
+        <TagsSection posts={sortedPosts} lang={lang} />
+      </section>
+    )
+  }
+  {
+    latestPosts.length > 0 && (
+      <section>
+        <BlockHeader>{t('home.latestPosts')}</BlockHeader>
+        {latestPosts.map((post) => (
+          <PostPreview post={post} lang={lang} />
+        ))}
+        <Pagination
+          nextLink={localizePath('/posts', lang)}
+          nextText={t('home.archiveLink')}
+          nextAriaLabel={t('paginationAria.next')}
+        />
+      </section>
+    )
+  }
+</Layout>
+
+<style is:global>
+  a.heading-anchor {
+    display: none !important;
+  }
+</style>

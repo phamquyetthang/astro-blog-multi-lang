@@ -4,6 +4,7 @@ published: 2025-07-01
 draft: false
 description: 'A deep dive into closures and their applications in JavaScript.'
 tags: ['javascript']
+lang: en
 ---
 
 ![javascript code](https://upload.wikimedia.org/wikipedia/commons/e/ef/Programming_code.jpg)

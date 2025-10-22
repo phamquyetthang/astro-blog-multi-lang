@@ -4,23 +4,43 @@ import LightDarkAutoButton from '~/components/LightDarkAutoButton.astro'
 import Search from '~/components/Search.astro'
 import SelectTheme from '~/components/SelectTheme.astro'
 import NavLink from '~/components/NavLink.astro'
+import LanguageSwitcher from '~/components/LanguageSwitcher.astro'
+import { localizePath, useTranslations, type Lang } from '~/i18n/config'
 
 const lightDarkAutoTheme = siteConfig.themes.mode === 'light-dark-auto'
 const selectTheme =
   siteConfig.themes.mode === 'select' && siteConfig.themes.include.length > 1
+
+interface Props {
+  lang: Lang
+}
+
+const { lang } = Astro.props
+const t = useTranslations(lang)
+const homeHref = localizePath('/', lang)
+const localizedLinks = siteConfig.navLinks.map((link) => ({
+  ...link,
+  name: link.i18nKey ? t(link.i18nKey) : link.name,
+  url: link.external ? link.url : localizePath(link.url, lang),
+}))
 ---
 
 <header>
   <div class="relative flex items-center justify-between bg-accent/10 rounded-xl">
     <a
       id="logo"
-      href="/"
+      href={homeHref}
       class="block px-4 py-1.5 max-w-full no-underline items-center bg-accent text-background font-bold rounded-xl"
     >
       {siteConfig.title}
     </a>
     <div class="flex items-center gap-3 sm:mr-3">
-      <Search trailingSlashes={siteConfig.trailingSlashes} />
+      <Search
+        trailingSlashes={siteConfig.trailingSlashes}
+        label={t('search.open')}
+        dialogLabel={t('search.dialogLabel')}
+      />
+      <LanguageSwitcher lang={lang} />
       {lightDarkAutoTheme && <LightDarkAutoButton />}
       {selectTheme && <SelectTheme />}
       <nav id="nav-mobile" aria-label="Menu" class="p-0 text-accent sm:hidden">
@@ -37,26 +57,22 @@ const selectTheme =
           id="nav-mobile-list"
           class="invisible absolute flex flex-col bg-background shadow text-accent border-2 m-0 p-2.5 top-11.5 left-auto right-0 z-50 rounded-xl"
         >
-          {
-            siteConfig.navLinks.map((link) => (
-              <li class="p-1" aria-expanded="false">
-                <NavLink link={link} />
-              </li>
-            ))
-          }
+          {localizedLinks.map((link) => (
+            <li class="p-1" aria-expanded="false">
+              <NavLink link={link} />
+            </li>
+          ))}
         </ul>
       </nav>
     </div>
   </div>
   <nav aria-label="Menu" class="p-0 mt-4 ml-0.5 text-accent hidden sm:block">
     <ul class="flex flex-row text-accent">
-      {
-        siteConfig.navLinks.map((link) => (
-          <li class="mr-5" aria-expanded="true">
-            <NavLink link={link} />
-          </li>
-        ))
-      }
+      {localizedLinks.map((link) => (
+        <li class="mr-5" aria-expanded="true">
+          <NavLink link={link} />
+        </li>
+      ))}
     </ul>
   </nav>
 </header>

@@ -4,6 +4,7 @@ published: 2025-07-09
 draft: false
 description: 'Understand how the JavaScript event loop works and its role in asynchronous programming.'
 tags: ['javascript']
+lang: en
 ---
 
 The event loop is a critical part of JavaScript's runtime, enabling asynchronous programming. Here's a simple example:

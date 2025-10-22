@@ -4,6 +4,7 @@ published: 2025-07-13
 draft: false
 description: 'Learn how prototypal inheritance works in JavaScript and its use cases.'
 tags: ['javascript']
+lang: en
 ---
 
 Prototypal inheritance is a feature in JavaScript that allows objects to inherit properties and methods from other objects. Here's an example:
