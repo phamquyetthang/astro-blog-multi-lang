@@ -1,0 +1,130 @@
+---
+title: 'Bảo mật Swagger Document trong node và nestjs | Code đủ thứ'
+canonicalSlug: 'express-basic-auth-swagger-doc'
+published: 2023-12-28
+draft: false
+description: 'Bảo mật Swagger Document trong dự án Nodejs và Nestjs - Trong bài viết này mình sẽ hướng dẫn bạn bảo mật API Swagger document trong Nodejs và Nestjs'
+tags: ['typescript', 'nodejs', 'nestjs', 'swagger']
+lang: vi
+---
+import { Image } from 'astro:assets';
+import basicAuth from './basic-auth-1.png';
+
+
+Swagger là một công cụ mạnh mẽ để tạo và quản lý API documentation. Tuy nhiên, việc bảo mật Swagger document là một yếu tố quan trọng để đảm bảo rằng thông tin nhạy cảm không bị lộ ra ngoài. Trong bài viết này, chúng ta sẽ tìm hiểu cách sử dụng thư viện express-basic-auth để bảo vệ trang Swagger document trong dự án JavaScript và TypeScript. Chúng ta sẽ tập trung vào hai trường hợp: một dự án sử dụng JavaScript/TypeScript thông thường và một dự án NestJS với @nestjs/swagger.
+
+Sau khi hoàn thành, một form yêu cầu nhập user/password sẽ hiện ra khi vào trang document và bắt buộc phải nhập đúng tài khoản để có thể xem document: 
+<Image src={basicAuth} alt="Basic auth" style={{height: 300}} height={300} />
+{/* truncate */}
+
+## 1. Cài đặt thư viện express-basic-auth
+
+Trước hết, chúng ta cần cài đặt thư viện express-basic-auth. Đối với dự án JavaScript/TypeScript thông thường, bạn có thể chạy lệnh sau:
+
+```bash
+npm install express-basic-auth
+```
+
+Nếu bạn đang sử dụng TypeScript, hãy thêm types cho express-basic-auth:
+
+```bash
+npm install --save-dev @types/express-basic-auth
+```
+
+## 2. Bảo mật trang Swagger document trong dự án JavaScript/TypeScript
+
+JavaScript
+
+```javascript
+// app.js
+const express = require("express");
+const basicAuth = require("express-basic-auth");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
+
+const app = express();
+
+// Bảo mật trang Swagger bằng express-basic-auth
+const users = { admin: "password123" };
+app.use(
+  "/api-docs",
+  basicAuth({ users, challenge: true }),
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument)
+);
+
+// Các route và middleware khác của ứng dụng
+// ...
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+```
+
+TypeScript
+
+```typescript
+// app.ts
+import express from "express";
+import basicAuth from "express-basic-auth";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger.json";
+
+const app = express();
+
+// Bảo mật trang Swagger bằng express-basic-auth
+const users = { admin: "password123" };
+app.use(
+  "/api-docs",
+  basicAuth({ users, challenge: true }),
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument)
+);
+
+// Các route và middleware khác của ứng dụng
+// ...
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+```
+#### ``` challenge: true ``` Bạn cần phải truyền param này để express-basic-auth hiện thị prompt đăng nhập
+Usersname là ```admin```\
+password là ```password123```
+## 3. Bảo mật trang Swagger document trong dự án NestJS
+
+Đối với dự án NestJS, chúng ta có thể sử dụng express-basic-auth trong module main.ts của ứng dụng.
+
+```typescript
+// main.ts
+import { NestFactory } from "@nestjs/core";
+import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
+import * as basicAuth from "express-basic-auth";
+import { AppModule } from "./app.module";
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  // Bảo mật trang Swagger bằng express-basic-auth
+  const users = { admin: "password123" };
+  app.use("/api-docs", basicAuth({ users, challenge: true }));
+
+  const options = new DocumentBuilder()
+    .setTitle("Your API")
+    .setDescription("API documentation")
+    .setVersion("1.0")
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup("api-docs", app, document);
+
+  const PORT = process.env.PORT || 3000;
+  await app.listen(PORT);
+}
+bootstrap();
+```
+
+## Kết luận
+
+Trên đây là cách bạn có thể bảo mật trang Swagger document trong dự án JavaScript và TypeScript sử dụng thư viện express-basic-auth. Qua bài viết này, bạn có thể áp dụng phương pháp tương tự trong các dự án của mình để đảm bảo rằng tài liệu API của bạn được bảo vệ an toàn.
