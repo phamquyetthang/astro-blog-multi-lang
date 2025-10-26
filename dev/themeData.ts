@@ -38,7 +38,6 @@ const exportThemeData = async () => {
   // Write to file
   const fs = await import('fs/promises')
   await fs.writeFile(outputPath, jsonData, 'utf-8')
-  console.log(`Theme data written to ${outputPath}`)
 }
 
 await exportThemeData()

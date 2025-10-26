@@ -9,7 +9,7 @@ const config: SiteConfig = {
   description:
     'A coder-ready Astro blog theme with 59 of your favorite color schemes to choose from',
   // The author of the site, used in the footer, SEO, and RSS feed.
-  author: 'Katy Kookaburra',
+  author: 'Pham Quyet Thang',
   // Keywords for SEO, used in the meta tags.
   tags: ['Astro', 'Terminal', 'Theme', 'Codeduthu', 'stelcodes'],
   // Path to the image used for generating social media previews.
@@ -117,9 +117,9 @@ const config: SiteConfig = {
   // If you don't want to use Giscus, set this to undefined.
   giscus: {
     repo: 'phamquyetthang/astro-blog-multi-lang',
-    repoId: 'R_kgDOPNnBig',
-    category: 'Giscus',
-    categoryId: 'DIC_kwDOPNnBis4CteOc',
+    repoId: 'R_kgDOQG80tA',
+    category: 'Announcements',
+    categoryId: 'DIC_kwDOQG80tM4CxFNZ',
     reactionsEnabled: true, // Enable reactions on post itself
   },
   // These are characters available for the character chat feature.
